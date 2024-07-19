@@ -1,4 +1,4 @@
-import express, {Express, Request, Response } from "express";
+import express, { Express, json, Request, Response } from "express";
 import "dotenv/config";
 import users from "./data.json";
 import * as fs from "fs";
@@ -8,7 +8,7 @@ const PORT = process.env.PORT;
 
 console.log("PORT ", PORT);
 
-const app:Express = express();
+const app: Express = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -38,6 +38,9 @@ app
   .get((req: Request, res: Response) => {
     const id = Number(req.params.id);
     const user = users.find((user: any) => user.id == id);
+    if (!user) {
+      return res.status(404).json({error:"user not found."})
+    }
     return res.json(user);
   })
   .patch((req: Request, res: Response) => {
@@ -83,6 +86,11 @@ app
 
 app.post("/api/users", (req: Request, res: Response) => {
   const body = req.body;
+  console.log("Body in POST ==> " , body);
+  
+  if (!body.name && !body.last_name && !body.email && !body.gender && !body.job_title) {
+    return res.status(400).json({msg:"All fields are req ... "})
+  }
   console.log("Body ==> ", body);
 
   users.push({ ...body, id: users.length + 1 });
@@ -95,6 +103,5 @@ app.listen(PORT, () => {
   console.log(`server Runningat ==> http://localhost:${PORT}`);
 });
 
-  
-  
-  
+
+
