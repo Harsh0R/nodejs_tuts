@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
-
-async function connectMongoDB(url) {
+// mongoose.set('strictQuery' , true)
+async function connectMongoDB(url:any) {
   return mongoose
     .connect(url)
-    .then(() => console.log("mongoose connected ... "))
-    .catch((err) => console.log("Mongoose connection err => ", err));
+    .then(() => console.log("MongoDB connected ... "))
+    .catch((err:any) => console.log("Mongoose connection err => ", err));
 }
 
-module.exports = {connectMongoDB}
+// module.exports = {connectMongoDB}
+export default connectMongoDB;

@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import fs from "fs";
 
-function logReqRes(filename) {
+function logReqRes(filename: fs.PathOrFileDescriptor) {
   return (req: Request, res: Response, next: NextFunction) => {
     fs.appendFile(
       filename ,
-      `\n ${Date.now()} : ${req.ip} - ${req.method} : ${req.path} \n`,
+      `\nDate = ${Date.now()} , Ip = ${req.ip} , Method = ${req.method} , Path = ${req.path} \n`,
       (err: any) => {
         next();
       }
@@ -13,6 +13,7 @@ function logReqRes(filename) {
   };
 }
 
-module.exports = {
-    logReqRes
-}
+// module.exports = {
+//     logReqRes
+// }
+export default logReqRes

@@ -1,10 +1,10 @@
 import express, { Express, Request, Response } from "express";
-import { connectionMongoDB } from "./connection";
+import connectMongoDB from "./connection";
 
 import useRouter from "./routes/user";
 import dotenv from "dotenv";
 
-import {logReqRes} from './middlewares/index'
+import logReqRes from './middlewares/index'
 
 dotenv.config();
 
@@ -12,14 +12,14 @@ const app: Express = express();
 const PORT = process.env.PORT || 8000;
 
 //connection
-connectionMongoDB("mongodb://127.0.0.1:27017/node_tuts")
+connectMongoDB("mongodb://127.0.0.1:27017/node_tuts")
 
 //Middleware = Plugin
 app.use(express.json());
 app.use(logReqRes('log.txt'));
 
-//Routes
-app.use("/user", useRouter);
+//Routes`
+app.use("api/user", useRouter);
 
 app.listen(PORT, () => {
   console.log(`app runnig at :=> http://localhost:${PORT}`);
